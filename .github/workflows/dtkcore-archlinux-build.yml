@@ -71,16 +71,14 @@ jobs:
 
       - name: Create installation package
         run: |
-          cd /tmp/dtkcore-install
-          pacman -S --noconfirm zip
-          zip -r /tmp/dtkcore-archlinux-qt${{ matrix.qt_version }}-$(date +%Y%m%d-%H%M%S).zip .
-          ls -la /tmp/dtkcore-archlinux-qt${{ matrix.qt_version }}-*.zip
+          tar -czf /tmp/dtkcore-archlinux-qt${{ matrix.qt_version }}-$(date +%Y%m%d-%H%M%S).tar.gz -C /tmp/dtkcore-install .
+          ls -la /tmp/dtkcore-archlinux-qt${{ matrix.qt_version }}-*.tar.gz
 
       - name: Upload dtkcore Arch Linux build artifacts
         if: ${{ !env.ACT }}
         uses: actions/upload-artifact@v4
         with:
           name: dtkcore-archlinux-qt${{ matrix.qt_version }}-build
-          path: "/tmp/dtkcore-archlinux-qt${{ matrix.qt_version }}-*.zip"
+          path: "/tmp/dtkcore-archlinux-qt${{ matrix.qt_version }}-*.tar.gz"
           if-no-files-found: error
           retention-days: 30
